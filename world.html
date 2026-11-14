@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Sal's World</title>
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#24221f;color:#f2eada;font-family:'Pixelify Sans',monospace;overflow:hidden;touch-action:none}
+#game,canvas{position:fixed;inset:0;display:block;image-rendering:pixelated}
+.px{font-family:'Press Start 2P',monospace;font-size:10px;line-height:1.6}
+.hud{position:fixed;top:14px;left:14px;z-index:5;display:flex;gap:10px;align-items:center}
+.hud a,.hud span{background:#f2eada;color:#24221f;padding:10px 12px;text-decoration:none}
+.hud span{background:#24221f;color:#f2eada;box-shadow:0 0 0 3px #f2eada}
+#mmf{position:fixed;right:14px;top:14px;width:160px;height:120px;box-shadow:0 0 0 4px #f2eada;pointer-events:none;z-index:4}
+#hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;background:#f2eada;color:#24221f;padding:12px 14px;display:none;white-space:nowrap;box-shadow:0 0 0 4px #24221f,0 0 0 8px #f2eada}
+#panel{position:fixed;inset:0;z-index:10;background:rgba(36,34,31,.9);display:none;align-items:center;justify-content:center;padding:18px}
+.card{background:#f2eada;color:#24221f;width:min(580px,100%);max-height:86vh;overflow:auto;padding:28px;box-shadow:0 0 0 4px #24221f,0 0 0 8px #f2eada;position:relative;font-size:1.1rem;line-height:1.55}
+.card h2{font-family:'Press Start 2P',monospace;font-size:1rem;line-height:1.5;margin:0 0 16px;padding-right:44px}
+.card p{margin:0 0 12px}.card ul{padding-left:20px;margin:0 0 6px}.card li{margin-bottom:6px}
+.x{position:absolute;right:14px;top:14px;border:0;background:#24221f;color:#f2eada;font-family:'Press Start 2P',monospace;font-size:12px;padding:10px;cursor:pointer}
+.links{display:grid;gap:12px;margin-top:6px}
+.links a{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#24221f;color:#f2eada;text-decoration:none;padding:14px;font-family:'Press Start 2P',monospace;font-size:11px;line-height:1.5}
+.links a small{font-family:'Pixelify Sans',monospace;font-size:1rem;opacity:.75;text-align:right}
+.links a:hover{background:#47433c}
+#pad{position:fixed;left:16px;bottom:18px;z-index:6;display:none;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(3,56px);gap:6px}
+#pad button,#act{background:rgba(242,234,218,.88);border:0;color:#24221f;font-size:18px;touch-action:none}
+#pad .u{grid-column:2}#pad .l{grid-column:1;grid-row:2}#pad .r{grid-column:3;grid-row:2}#pad .d{grid-column:2;grid-row:3}
+#act{position:fixed;right:18px;bottom:24px;z-index:6;display:none;width:92px;height:92px;font-family:'Press Start 2P',monospace;font-size:11px}
+@media(hover:none){#pad{display:grid}#act{display:block}#hint{bottom:130px}}
+@media(max-width:560px){#mmf{width:110px;height:82px}}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div class="hud px"><a href="index.html">&larr; HOME</a><span>@BASHEER</span></div>
+<div id="mmf"></div>
+<div id="hint" class="px"></div>
+<div id="panel"><div class="card" id="card"></div></div>
+<div id="pad"><button class="u" data-d="u">&#9650;</button><button class="l" data-d="l">&#9664;</button><button class="r" data-d="r">&#9654;</button><button class="d" data-d="d">&#9660;</button></div>
+<button id="act">ENTER</button>
+
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<script>
+const W=2400,H=1800;
+const C={ch:0x24221f,ch2:0x2f2c28,ch3:0x47433c,cr:0xf2eada,cr2:0xe4d8c0,mu:0xa89e8b};
+const B=[
+  {k:'about',n:'ABOUT ME',x:700,y:700,wall:C.cr,roof:C.ch3},
+  {k:'projects',n:'PROJECTS & CONTRIBUTIONS',x:1700,y:700,wall:C.cr2,roof:C.ch3},
+  {k:'platforms',n:'CODING PLATFORMS',x:700,y:1500,wall:C.mu,roof:C.ch},
+  {k:'social',n:'SOCIAL MEDIA',x:1700,y:1500,wall:C.cr,roof:C.ch}
+];
+const link=(u,t,s)=>`<a href="${u}" target="_blank" rel="noopener">${t}<small>${s||'&#8599;'}</small></a>`;
+const P={
+about:`<h2>About Me</h2><p>Hi! I'm <b>Salman Basheer</b>, an electronics &amp; communication engineering student at <b>RMK Engineering College</b>, Chennai.</p><p>I love building things &mdash; from low-level C++ programs to full-stack web apps. I contribute to open-source projects like Odysseus (self-hosted AI workspace) and Mousiki (TUI music player).</p><p>When I'm not coding, I'm exploring AI/LLM applications.</p><ul><li>44+ repos</li><li>5+ languages: Python, C++, C#, HTML5, CSS3</li><li>Silver Cod&eacute;dex rank</li><li>2+ open-source contributions</li></ul>`,
+projects:`<h2>Projects &amp; Contributions</h2><div class="links">${link('https://agrisense-app-ruby.vercel.app','Agrisense App','live')}${link('https://github.com/Basheer-io/Agrisense-app','Agrisense code','github')}${link('https://github.com/odysseus-dev/odysseus','Odysseus (contrib)','AI workspace')}${link('https://github.com/itzender5820/mousiki','Mousiki (contrib)','C++ TUI player')}</div>`,
+platforms:`<h2>Coding Platforms</h2><div class="links">${link('https://leetcode.com/salmanbasheer-21/','LeetCode')}${link('https://www.hackerrank.com/profile/25ec189','HackerRank')}${link('https://www.codechef.com/users/basheer_21','CodeChef')}${link('https://www.codedex.io/@Basheer-21','Cod&eacute;dex')}</div>`,
+social:`<h2>Social Media</h2><div class="links">${link('mailto:salmanbasheer1921@gmail.com','Email','say hi')}${link('https://github.com/Basheer-io','GitHub')}${link('https://www.linkedin.com/in/salman-basheer-36a24b423/','LinkedIn')}${link('https://discord.com/users/771093152890748968','Discord')}</div>`
+};
+
+let near=null,isOpen=false;const pad={};
+const panel=document.getElementById('panel'),card=document.getElementById('card'),hint=document.getElementById('hint');
+function openP(k){isOpen=true;card.innerHTML='<button class="x" aria-label="Close">X</button>'+P[k];panel.style.display='flex';hint.style.display='none'}
+function closeP(){isOpen=false;panel.style.display='none'}
+panel.addEventListener('click',e=>{if(e.target===panel||e.target.classList.contains('x'))closeP()});
+addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeP();
+  if((e.key==='e'||e.key==='E'||e.key==='Enter'||e.key===' ')&&near&&!isOpen){e.preventDefault();openP(near.k)}
+});
+document.getElementById('act').addEventListener('pointerdown',()=>{if(isOpen)closeP();else if(near)openP(near.k)});
+document.querySelectorAll('#pad button').forEach(b=>{
+  const d=b.dataset.d;
+  b.addEventListener('pointerdown',e=>{e.preventDefault();pad[d]=1});
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>pad[d]=0));
+});
+
+class World extends Phaser.Scene{
+  create(){
+    const g=this.make.graphics({add:false});
+    let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+    // ground + path tiles
+    g.fillStyle(C.ch2).fillRect(0,0,32,32);
+    for(let i=0;i<7;i++){g.fillStyle(i%2?0x3a3631:0x403b35).fillRect(Math.floor(rnd()*30),Math.floor(rnd()*30),2,2)}
+    g.generateTexture('ground',32,32);g.clear();
+    g.fillStyle(0x5a554c).fillRect(0,0,32,32);
+    for(let i=0;i<6;i++){g.fillStyle(0x6b655a).fillRect(Math.floor(rnd()*28),Math.floor(rnd()*28),4,2)}
+    g.generateTexture('path',32,32);g.clear();
+    // buildings
+    B.forEach(b=>{
+      for(let r=0;r<6;r++)g.fillStyle(b.roof).fillRect(48-r*8,r*8,96+r*16,8);
+      g.fillStyle(C.ch).fillRect(8,48,176,6);
+      g.fillStyle(b.wall).fillRect(16,54,160,106);
+      g.fillStyle(C.ch).fillRect(16,54,4,106).fillRect(172,54,4,106);
+      [[34,68],[130,68]].forEach(([x,y])=>{g.fillStyle(C.ch).fillRect(x,y,28,26);g.fillStyle(C.cr2).fillRect(x+3,y+3,10,8)});
+      g.fillStyle(C.ch).fillRect(78,112,36,48);g.fillStyle(C.cr).fillRect(106,136,4,4);
+      g.generateTexture('bld_'+b.k,192,160);g.clear();
+    });
+    // tree
+    g.fillStyle(C.ch3).fillRect(20,44,8,20);
+    g.fillStyle(C.mu).fillRect(8,12,32,32).fillRect(14,4,20,8);
+    g.fillStyle(C.cr2).fillRect(14,10,8,8).fillRect(28,22,6,6);
+    g.generateTexture('tree',48,64);g.clear();
+    // player frames
+    const me=s=>{
+      g.fillStyle(0x15130f).fillRect(6,2,12,6).fillRect(5,5,3,4);
+      g.fillStyle(0xb9825a).fillRect(7,8,10,8);
+      g.fillStyle(0x15130f).fillRect(9,11,2,2).fillRect(14,11,2,2);
+      g.fillStyle(C.cr).fillRect(5,16,14,9);g.fillStyle(C.ch3).fillRect(5,20,14,2);
+      g.fillStyle(0xb9825a).fillRect(3,16,2,8).fillRect(19,16,2,8);
+      g.fillStyle(C.ch3).fillRect(6,25,12,4);
+      g.fillStyle(C.ch).fillRect(s?7:6,29,5,s?2:3).fillRect(s?13:14,29,5,s?3:2);
+      g.generateTexture('me'+s,24,32);g.clear();
+    };
+    me(0);me(1);
+    this.anims.create({key:'walk',frames:[{key:'me0'},{key:'me1'}],frameRate:7,repeat:-1});
+
+    // world
+    this.physics.world.setBounds(0,0,W,H);
+    this.add.tileSprite(0,0,W,H,'ground').setOrigin(0);
+    const road=(x,y,w,h)=>this.add.tileSprite(x,y,w,h,'path').setOrigin(.5).setDepth(1);
+    road(W/2,900,1800,64);road(W/2,H/2,64,1300);
+    B.forEach(b=>road(b.x,(b.y+900)/2,64,Math.abs(b.y-900)));
+    road(W/2,900,200,200);
+    this.solid=this.physics.add.staticGroup();
+    const font={fontFamily:'"Press Start 2P"',fontSize:'8px',color:'#f2eada',backgroundColor:'#24221f',padding:{x:6,y:5}};
+    B.forEach(b=>{
+      const s=this.solid.create(b.x,b.y-80,'bld_'+b.k).setDepth(b.y);
+      this.add.text(b.x,b.y-166,b.n,font).setOrigin(.5,1).setDepth(b.y+1);
+      this.add.text(b.x,b.y+34,'ENTER',{...font,fontSize:'7px',color:'#24221f',backgroundColor:'#f2eada'}).setOrigin(.5).setDepth(2).setAlpha(.9);
+    });
+    this.add.text(W/2,900,"SAL'S WORLD",{...font,fontSize:'12px'}).setOrigin(.5).setDepth(2);
+    // trees
+    let placed=0,tries=0;
+    while(placed<70&&tries<2000){
+      tries++;
+      const x=80+rnd()*(W-160),y=100+rnd()*(H-160);
+      if(Math.abs(y-900)<110||Math.abs(x-W/2)<110)continue;
+      if(B.some(b=>Math.abs(x-b.x)<130&&y>Math.min(b.y-220,900)&&y<Math.max(b.y+60,900)))continue;
+      if(B.some(b=>Phaser.Math.Distance.Between(x,y,b.x,b.y-80)<240))continue;
+      const t=this.add.image(x,y,'tree').setDepth(y);
+      this.physics.add.existing(t,true);t.body.setSize(14,12).setOffset(17,50);
+      this.solid.add(t);placed++;
+    }
+    // player
+    this.p=this.physics.add.sprite(W/2,990,'me0').setDepth(990);
+    this.p.body.setSize(14,10).setOffset(5,22);
+    this.p.setCollideWorldBounds(true);
+    this.physics.add.collider(this.p,this.solid);
+    this.tag=this.add.text(0,0,'@Basheer',{...font,fontSize:'7px'}).setOrigin(.5,1).setDepth(99999);
+    // camera + minimap
+    const cam=this.cameras.main;cam.setBounds(0,0,W,H).startFollow(this.p,true,.12,.12);
+    this.mm=this.cameras.add(0,0,160,120).setZoom(160/W).setBackgroundColor(0x24221f);
+    this.mm.centerOn(W/2,H/2);
+    this.dot=this.add.rectangle(0,0,70,70,C.cr).setDepth(99998);
+    cam.ignore(this.dot);
+    this.fit=()=>{
+      const w=this.scale.width,h=this.scale.height,mw=w<560?110:160,mh=w<560?82:120;
+      cam.setZoom(Phaser.Math.Clamp(Math.min(w,h)/360,1.4,2.6));
+      this.mm.setSize(mw,mh).setZoom(mw/W).setPosition(w-mw-14,14).centerOn(W/2,H/2);
+    };
+    this.fit();this.scale.on('resize',this.fit);
+    this.keys=this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
+  }
+  update(){
+    const k=this.keys,p=this.p;
+    let dx=0,dy=0;
+    if(!isOpen){
+      dx=(k.RIGHT.isDown||k.D.isDown||pad.r?1:0)-(k.LEFT.isDown||k.A.isDown||pad.l?1:0);
+      dy=(k.DOWN.isDown||k.S.isDown||pad.d?1:0)-(k.UP.isDown||k.W.isDown||pad.u?1:0);
+    }
+    const v=new Phaser.Math.Vector2(dx,dy).normalize().scale(130);
+    p.setVelocity(v.x,v.y);
+    if(dx||dy){p.anims.play('walk',true);if(dx)p.setFlipX(dx<0)}else{p.anims.stop();p.setTexture('me0')}
+    p.setDepth(p.y);this.tag.setPosition(p.x,p.y-20);this.dot.setPosition(p.x,p.y);
+    near=null;
+    for(const b of B){if(Phaser.Math.Distance.Between(p.x,p.y,b.x,b.y+26)<64){near=b;break}}
+    if(near&&!isOpen){hint.style.display='block';hint.textContent=(matchMedia('(hover:none)').matches?'TAP ENTER':'PRESS E')+' · '+near.n}
+    else hint.style.display='none';
+  }
+}
+new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#24221f',pixelArt:true,roundPixels:true,
+  scale:{mode:Phaser.Scale.RESIZE,width:window.innerWidth,height:window.innerHeight},
+  physics:{default:'arcade',arcade:{debug:false}},scene:World});
+</script>
+</body>
+</html>
