@@ -268,6 +268,19 @@ a,button,label,.flip,.snd,.nav-hamburger,.pixel-btn,.tab,.platform-card,.soc a,i
 .jbar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,var(--cr) 0 10px,transparent 10px 14px)}
 .jhint{position:absolute;left:0;right:0;top:calc(14vh + 6.5rem);text-align:center;font-family:var(--px);font-size:.6rem;color:var(--mu);animation:blink 1.2s steps(1) infinite}
 @media(max-width:700px){.jtrack{zoom:.7}.jhero{left:14vw}}
+
+/* journey: only the Enter World gate */
+.journey{height:320vh}
+.jwords{top:26vh;transform:scale(calc(.8 + var(--p,0)*.45))}
+.gate{position:absolute;left:0;right:0;top:56vh;width:auto;height:auto;opacity:0;transform:translateY(40px);transition:opacity .3s steps(4),transform .3s steps(4);pointer-events:none}
+.gate.on{opacity:1;transform:none;pointer-events:auto}
+.jhint{top:auto;bottom:14vh}
+
+/* Enter World: chunky yellow button */
+.pixel-btn.big{background:#ffcf33;color:#24221f;font-family:'Pixelify Sans',monospace;font-size:clamp(1.4rem,3.6vw,2rem);font-weight:600;line-height:1.2;letter-spacing:.02em;padding:16px 44px;margin:4px 4px 10px;border-radius:7px;animation:none;
+ box-shadow:inset 0 3px 0 #ffe582,inset 0 -5px 0 #dba90f,0 7px 0 #9a6f08,0 7px 0 3px #1a1814;transition:transform .08s,box-shadow .08s}
+.pixel-btn.big:hover{transform:translateY(3px);background:#ffd84d;box-shadow:inset 0 3px 0 #ffe582,inset 0 -5px 0 #dba90f,0 4px 0 #9a6f08,0 4px 0 3px #1a1814}
+.pixel-btn.big:active{transform:translateY(7px);box-shadow:inset 0 3px 0 #ffe582,inset 0 -5px 0 #dba90f,0 0 0 #9a6f08,0 0 0 3px #1a1814}
 </style>
 </head>
 <body>
@@ -289,12 +302,7 @@ a,button,label,.flip,.snd,.nav-hamburger,.pixel-btn,.tab,.platform-card,.soc a,i
   <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" />
   <label for="nav-toggle" class="nav-hamburger" aria-hidden="true"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="world.html">World</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#platforms">Platforms</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="world.html">Enter World</a></li>
   </ul>
 </nav>
 
@@ -304,9 +312,6 @@ a,button,label,.flip,.snd,.nav-hamburger,.pixel-btn,.tab,.platform-card,.soc a,i
       <p class="hero-greeting">Hello, I'm</p>
       <h1 class="hero-name glitch" data-text="SALMAN BASHEER">SALMAN BASHEER</h1>
       <p class="hero-tagline">Electronics Student · Open-Source Contributor · Competitive Programmer</p>
-      <div class="hero-cta">
-        <a href="#contact" class="pixel-btn secondary">Contact Me</a>
-      </div>
     </div>
     <div class="hero-figure">
       <div class="pcard" id="pcard">
@@ -338,166 +343,12 @@ a,button,label,.flip,.snd,.nav-hamburger,.pixel-btn,.tab,.platform-card,.soc a,i
   </div>
 </div>
 
-<section class="journey" id="journey" aria-label="Scroll to explore">
+<section class="journey" id="journey" aria-label="Scroll to enter">
   <div class="jstick">
-    <div class="jwords px2" id="jwords" data-i="0"><span>ABOUT ME</span><span>PROJECTS</span><span>CODING PLATFORMS</span><span>SOCIAL MEDIA</span><span>THE WORLD</span></div>
-    <div class="jtrack" id="jtrack">
-      <div class="bld b1"><b></b><i>ABOUT</i></div>
-      <div class="bld b2"><b></b><i>PROJECTS</i></div>
-      <div class="bld b3"><b></b><i>PLATFORMS</i></div>
-      <div class="bld b4"><b></b><i>SOCIAL</i></div>
-      <div class="gate"><a class="pixel-btn big" href="world.html">ENTER WORLD &#9654;</a></div>
-    </div>
-    <svg class="jhero" id="jhero" viewBox="0 0 12 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="6" height="2" fill="#15130f"/><rect x="2" y="2" width="2" height="2" fill="#15130f"/><rect x="3" y="2" width="6" height="2" fill="#15130f"/><rect x="3" y="4" width="6" height="4" fill="#b9825a"/><rect x="4" y="5" width="1" height="1" fill="#15130f"/><rect x="7" y="5" width="1" height="1" fill="#15130f"/><rect x="2" y="8" width="8" height="5" fill="#f2eada"/><rect x="2" y="10" width="8" height="1" fill="#47433c"/><rect x="1" y="8" width="1" height="4" fill="#b9825a"/><rect x="10" y="8" width="1" height="4" fill="#b9825a"/><rect x="3" y="13" width="6" height="2" fill="#47433c"/><rect x="3" y="15" width="2" height="1" fill="#24221f"/><rect x="7" y="15" width="2" height="1" fill="#24221f"/></svg>
-    <div class="jroad" aria-hidden="true"></div>
+    <div class="jwords" id="jwords" data-i="0"><span>SCROLL</span><span>WELCOME TO</span><span>SAL&rsquo;S WORLD</span></div>
+    <div class="gate" id="gate"><a class="pixel-btn big" href="world.html">Enter World</a></div>
     <div class="jbar" aria-hidden="true"><i id="jfill"></i></div>
-    <p class="jhint" aria-hidden="true">SCROLL &darr; TO WALK</p>
-  </div>
-</section>
-
-<section class="about section light grid-bg" id="about">
-  <div class="inner">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-grid">
-      <div class="terminal pixel-border">
-        <div class="terminal-bar">
-          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-          <span class="terminal-title">sal@portfolio:~</span>
-        </div>
-        <div class="terminal-body">
-          <p><span class="prompt">$</span> cat about.txt</p>
-          <p class="terminal-text">Hi! I'm <strong>Salman Basheer</strong>, an electronics &amp; communication engineering student at <strong>RMK Engineering College</strong>, Chennai.</p>
-          <p class="terminal-text">I love building things — from low-level C++ programs to full-stack web apps. I contribute to open-source projects like <strong>Odysseus</strong> (self-hosted AI workspace) and <strong>Mousiki</strong> (TUI music player).</p>
-          <p class="terminal-text">When I'm not coding, I'm exploring AI/LLM applications.</p>
-          <p><span class="prompt">$</span> <span class="cursor">█</span></p>
-        </div>
-      </div>
-      <div class="about-stats">
-        <div class="stat-card pixel-border"><span class="stat-num">44+</span><span class="stat-label">Repos</span></div>
-        <div class="stat-card pixel-border"><span class="stat-num">5+</span><span class="stat-label">Languages</span></div>
-        <div class="stat-card pixel-border"><span class="stat-num">Silver</span><span class="stat-label">Codédex Rank</span></div>
-        <div class="stat-card pixel-border"><span class="stat-num">2+</span><span class="stat-label">OSS Contributions</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="skills section grid-bg" id="skills">
-  <div class="inner">
-    <h2 class="section-title">Skills &amp; Tech</h2>
-    <div class="skills-grid">
-      <div class="skill-category pixel-border">
-        <h3>Languages</h3>
-        <div class="tag-group">
-          <span class="pixel-tag">Python</span><span class="pixel-tag">C++</span><span class="pixel-tag">C#</span><span class="pixel-tag">HTML5</span><span class="pixel-tag">CSS3</span>
-        </div>
-      </div>
-      <div class="skill-category pixel-border">
-        <h3>Tools &amp; Platforms</h3>
-        <div class="tag-group">
-          <span class="pixel-tag">Git &amp; GitHub</span><span class="pixel-tag">Linux</span><span class="pixel-tag">Vercel</span><span class="pixel-tag">VS Code</span><span class="pixel-tag">Caddy</span>
-        </div>
-      </div>
-      <div class="skill-category pixel-border">
-        <h3>Interests</h3>
-        <div class="tag-group">
-          <span class="pixel-tag">AI / LLM Apps</span><span class="pixel-tag">Open Source</span><span class="pixel-tag">Competitive Programming</span><span class="pixel-tag">Privacy &amp; Security</span><span class="pixel-tag">Electronics</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="projects section light" id="projects">
-  <div class="inner">
-    <h2 class="section-title">Projects</h2>
-    <div class="hintrow"><p class="hint">Click a tab, press ← → or swipe to flip through the files.</p><button class="pixel-btn small snd" id="snd" type="button" aria-pressed="true">SOUND: ON</button></div>
-    <div class="folder">
-      <input type="radio" name="proj" id="f1" checked aria-label="Agrisense App" />
-      <input type="radio" name="proj" id="f2" aria-label="Odysseus" />
-      <input type="radio" name="proj" id="f3" aria-label="Mousiki" />
-      <div class="tabs">
-        <label class="tab" for="f1"><b>01</b>Agrisense</label>
-        <label class="tab" for="f2"><b>02</b>Odysseus</label>
-        <label class="tab" for="f3"><b>03</b>Mousiki</label>
-      </div>
-      <div class="folder-body">
-      <div class="panel p1">
-        <div class="sheet"><svg class="clip" viewBox="0 0 8 18" shape-rendering="crispEdges" fill="#47433c" aria-hidden="true"><rect x="2" y="0" width="4" height="2"/><rect x="0" y="2" width="2" height="13"/><rect x="6" y="2" width="2" height="10"/><rect x="2" y="15" width="4" height="2"/><rect x="2" y="5" width="2" height="9"/><rect x="4" y="5" width="2" height="2"/></svg><div class="art" aria-hidden="true">
-          <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges"><rect width="400" height="180" fill="#24221f"/>
-            <g fill="#f2eada"><rect y="140" width="400" height="40"/><rect x="190" y="80" width="20" height="60"/><rect x="150" y="90" width="40" height="20"/><rect x="130" y="70" width="30" height="20"/><rect x="210" y="70" width="40" height="20"/><rect x="250" y="50" width="30" height="20"/>
-            <rect x="310" y="30" width="60" height="60"/><rect x="300" y="40" width="80" height="40"/></g>
-            <g fill="#47433c"><rect x="20" y="150" width="30" height="10"/><rect x="90" y="165" width="40" height="10"/><rect x="260" y="152" width="30" height="10"/></g>
-            <g fill="#a89e8b" opacity=".6"><rect x="40" y="40" width="40" height="10"/><rect x="50" y="30" width="20" height="10"/><rect x="60" y="100" width="30" height="10"/></g></svg>
-        </div><p class="fig">FIG. 1 — AGRISENSE APP</p></div>
-        <div class="notes">
-          <p class="fileno">FILE 01 / 03</p>
-          <h3><span class="project-icon">🌾</span> Agrisense App</h3>
-          <p>A web application for agricultural sensing and monitoring, deployed on Vercel.</p>
-          <div class="tag-group small"><span class="pixel-tag">HTML</span><span class="pixel-tag">Web</span></div>
-          <div class="project-links"><a href="https://agrisense-app-ruby.vercel.app" target="_blank" rel="noopener" class="pixel-btn small">Live ↗</a><a href="https://github.com/Basheer-io/Agrisense-app" target="_blank" rel="noopener" class="pixel-btn small secondary">Code ↗</a></div>
-        </div>
-        <span class="stamp">LIVE</span>
-      </div>
-      <div class="panel p2">
-        <div class="sheet"><svg class="clip" viewBox="0 0 8 18" shape-rendering="crispEdges" fill="#47433c" aria-hidden="true"><rect x="2" y="0" width="4" height="2"/><rect x="0" y="2" width="2" height="13"/><rect x="6" y="2" width="2" height="10"/><rect x="2" y="15" width="4" height="2"/><rect x="2" y="5" width="2" height="9"/><rect x="4" y="5" width="2" height="2"/></svg><div class="art" aria-hidden="true">
-          <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges"><rect width="400" height="180" fill="#24221f"/>
-            <g fill="#a89e8b"><rect x="80" y="90" width="90" height="6"/><rect x="164" y="50" width="6" height="46"/><rect x="164" y="50" width="100" height="6"/><rect x="258" y="50" width="6" height="40"/><rect x="258" y="84" width="70" height="6"/><rect x="164" y="96" width="6" height="40"/><rect x="164" y="130" width="130" height="6"/><rect x="288" y="84" width="6" height="52"/></g>
-            <g fill="#f2eada"><rect x="60" y="76" width="30" height="30"/><rect x="154" y="36" width="30" height="30"/><rect x="250" y="70" width="28" height="28"/><rect x="320" y="70" width="30" height="30"/><rect x="154" y="120" width="30" height="30"/><rect x="278" y="120" width="30" height="30"/></g>
-            <g fill="#24221f"><rect x="68" y="84" width="14" height="14"/><rect x="162" y="44" width="14" height="14"/><rect x="328" y="78" width="14" height="14"/></g></svg>
-        </div><p class="fig">FIG. 2 — ODYSSEUS (CONTRIB)</p></div>
-        <div class="notes">
-          <p class="fileno">FILE 02 / 03</p>
-          <h3><span class="project-icon">🧠</span> Odysseus (Contrib)</h3>
-          <p>Self-hosted AI workspace. Contributed upstream pull requests and bug fixes.</p>
-          <div class="tag-group small"><span class="pixel-tag">Python</span><span class="pixel-tag">AI</span></div>
-          <div class="project-links"><a href="https://github.com/odysseus-dev/odysseus" target="_blank" rel="noopener" class="pixel-btn small secondary">View Repo ↗</a></div>
-        </div>
-        <span class="stamp">CONTRIB</span>
-      </div>
-      <div class="panel p3">
-        <div class="sheet"><svg class="clip" viewBox="0 0 8 18" shape-rendering="crispEdges" fill="#47433c" aria-hidden="true"><rect x="2" y="0" width="4" height="2"/><rect x="0" y="2" width="2" height="13"/><rect x="6" y="2" width="2" height="10"/><rect x="2" y="15" width="4" height="2"/><rect x="2" y="5" width="2" height="9"/><rect x="4" y="5" width="2" height="2"/></svg><div class="art" aria-hidden="true">
-          <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges"><rect width="400" height="180" fill="#24221f"/>
-            <g fill="#f2eada"><rect x="50" y="90" width="26" height="70"/><rect x="86" y="50" width="26" height="110"/><rect x="122" y="70" width="26" height="90"/><rect x="158" y="20" width="26" height="140"/><rect x="194" y="80" width="26" height="80"/><rect x="230" y="40" width="26" height="120"/><rect x="266" y="100" width="26" height="60"/><rect x="302" y="60" width="26" height="100"/><rect x="338" y="110" width="26" height="50"/></g>
-            <g fill="#24221f"><rect x="40" y="30" width="340" height="5"/><rect x="40" y="55" width="340" height="5"/><rect x="40" y="80" width="340" height="5"/><rect x="40" y="105" width="340" height="5"/><rect x="40" y="130" width="340" height="5"/></g>
-            <rect x="50" y="168" width="314" height="6" fill="#47433c"/><rect x="50" y="168" width="130" height="6" fill="#f2eada"/></svg>
-        </div><p class="fig">FIG. 3 — MOUSIKI (CONTRIB)</p></div>
-        <div class="notes">
-          <p class="fileno">FILE 03 / 03</p>
-          <h3><span class="project-icon">🎵</span> Mousiki (Contrib)</h3>
-          <p>Highly customizable TUI music player written in C++. Contributed PRs and handled upstream merges.</p>
-          <div class="tag-group small"><span class="pixel-tag">C++</span><span class="pixel-tag">TUI</span></div>
-          <div class="project-links"><a href="https://github.com/itzender5820/mousiki" target="_blank" rel="noopener" class="pixel-btn small secondary">View Repo ↗</a></div>
-        </div>
-        <span class="stamp">CONTRIB</span>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="platforms section grid-bg" id="platforms">
-  <div class="inner">
-    <h2 class="section-title">Coding Platforms</h2>
-    <div class="platforms-grid">
-      <a href="https://leetcode.com/salmanbasheer-21/" target="_blank" rel="noopener" class="platform-card pixel-border"><span class="platform-icon">⚡</span><span class="platform-name">LeetCode</span></a>
-      <a href="https://www.hackerrank.com/profile/25ec189" target="_blank" rel="noopener" class="platform-card pixel-border"><span class="platform-icon">🏆</span><span class="platform-name">HackerRank</span></a>
-      <a href="https://www.codechef.com/users/basheer_21" target="_blank" rel="noopener" class="platform-card pixel-border"><span class="platform-icon">👨‍🍳</span><span class="platform-name">CodeChef</span></a>
-      <a href="https://www.codedex.io/@Basheer-21" target="_blank" rel="noopener" class="platform-card pixel-border"><span class="platform-icon">🎮</span><span class="platform-name">Codédex</span></a>
-    </div>
-  </div>
-</section>
-
-<section class="contact section light grid-bg" id="contact">
-  <div class="inner">
-    <h2 class="section-title">Get In Touch</h2>
-    <p class="contact-text">Technology is my favorite rabbit hole, and I'm always up for swapping ideas, learning something new, or digging into how things work. Say hi anytime.</p>
-    <div class="contact-links">
-      <a href="mailto:salmanbasheer1921@gmail.com" class="pixel-btn primary">✉ Email Me</a>
-      <a href="https://github.com/Basheer-io" target="_blank" rel="noopener" class="pixel-btn secondary">◈ GitHub</a>
-      <a href="https://www.linkedin.com/in/salman-basheer-36a24b423/" target="_blank" rel="noopener" class="pixel-btn secondary">◆ LinkedIn</a>
-      <a href="https://discord.com/users/771093152890748968" target="_blank" rel="noopener" class="pixel-btn secondary">● Discord</a>
-    </div>
+    <p class="jhint" aria-hidden="true">SCROLL &darr;</p>
   </div>
 </section>
 
@@ -641,17 +492,13 @@ a,button,label,.flip,.snd,.nav-hamburger,.pixel-btn,.tab,.platform-card,.soc a,i
 })();
 </script>
 <script>
-// Scroll journey: scrolling walks the character past the buildings to the Enter World gate
+// Scroll journey: words grow as you scroll, then the Enter World button appears
 (function(){
   var J=document.getElementById('journey');if(!J)return;
-  var tr=document.getElementById('jtrack'),w=document.getElementById('jwords'),f=document.getElementById('jfill'),
-      g=tr.querySelector('.gate'),h=document.getElementById('jhero'),t;
+  var w=document.getElementById('jwords'),f=document.getElementById('jfill'),g=document.getElementById('gate');
   function upd(){
-    var r=J.getBoundingClientRect(),p=Math.max(0,Math.min(1,-r.top/(r.height-innerHeight))),z=parseFloat(getComputedStyle(tr).zoom)||1;
-    var max=(g.offsetLeft+g.offsetWidth/2)*z-innerWidth*.6;
-    tr.style.transform='translate3d('+(-p*Math.max(0,max)/z)+'px,0,0)';
-    J.style.setProperty('--p',p);f.style.width=p*100+'%';w.dataset.i=Math.min(4,Math.floor(p*5));
-    h.classList.add('walk');clearTimeout(t);t=setTimeout(function(){h.classList.remove('walk')},160);
+    var r=J.getBoundingClientRect(),p=Math.max(0,Math.min(1,-r.top/(r.height-innerHeight)));
+    J.style.setProperty('--p',p);f.style.width=p*100+'%';w.dataset.i=Math.min(2,Math.floor(p*3));g.classList.toggle('on',p>.72);
   }
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
 })();

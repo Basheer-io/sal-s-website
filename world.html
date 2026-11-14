@@ -31,6 +31,11 @@ body{margin:0;background:#24221f;color:#f2eada;font-family:'Pixelify Sans',monos
 #act{position:fixed;right:18px;bottom:24px;z-index:6;display:none;width:92px;height:92px;font-family:'Press Start 2P',monospace;font-size:11px}
 @media(hover:none){#pad{display:grid}#act{display:block}#hint{bottom:130px}}
 @media(max-width:560px){#mmf{width:110px;height:82px}}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}.tags span{background:#24221f;color:#f2eada;padding:3px 10px;font-size:.95rem}
+.card h3{font-family:'Press Start 2P',monospace;font-size:.7rem;line-height:1.6;margin:18px 0 10px}
+.proj{border:3px solid #24221f;padding:14px;margin-bottom:14px}.proj h3{margin-top:0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.stats div{background:#24221f;color:#f2eada;padding:12px}.stats b{display:block;font-family:'Press Start 2P',monospace;font-size:.85rem;margin-bottom:6px}
+.quote{border-left:6px solid #24221f;padding-left:12px;margin:14px 0 0;font-style:italic}
 </style>
 </head>
 <body>
@@ -47,17 +52,19 @@ body{margin:0;background:#24221f;color:#f2eada;font-family:'Pixelify Sans',monos
 const W=2400,H=1800;
 const C={ch:0x24221f,ch2:0x2f2c28,ch3:0x47433c,cr:0xf2eada,cr2:0xe4d8c0,mu:0xa89e8b};
 const B=[
-  {k:'about',n:'ABOUT ME',x:700,y:700,wall:C.cr,roof:C.ch3},
-  {k:'projects',n:'PROJECTS & CONTRIBUTIONS',x:1700,y:700,wall:C.cr2,roof:C.ch3},
-  {k:'platforms',n:'CODING PLATFORMS',x:700,y:1500,wall:C.mu,roof:C.ch},
-  {k:'social',n:'SOCIAL MEDIA',x:1700,y:1500,wall:C.cr,roof:C.ch}
+  {k:'about',n:'ABOUT ME',x:700,y:700,roof:0x3f6fb5,wall:0xeef0f2},
+  {k:'projects',n:'PROJECTS & CONTRIBUTIONS',x:1700,y:700,roof:0xc0504d,wall:0xf3ece4},
+  {k:'platforms',n:'CODING PLATFORMS',x:700,y:1500,roof:0x7d5fb0,wall:0xeceaf3},
+  {k:'social',n:'SOCIAL MEDIA',x:1700,y:1500,roof:0xe09a2e,wall:0xf4efe0}
 ];
 const link=(u,t,s)=>`<a href="${u}" target="_blank" rel="noopener">${t}<small>${s||'&#8599;'}</small></a>`;
+const T=(...t)=>'<div class="tags">'+t.map(x=>`<span>${x}</span>`).join('')+'</div>';
+const proj=(i,n,d,t,l)=>`<div class="proj"><h3>${i} ${n}</h3><p>${d}</p>${T(...t)}<div class="links">${l}</div></div>`;
 const P={
-about:`<h2>About Me</h2><p>Hi! I'm <b>Salman Basheer</b>, an electronics &amp; communication engineering student at <b>RMK Engineering College</b>, Chennai.</p><p>I love building things &mdash; from low-level C++ programs to full-stack web apps. I contribute to open-source projects like Odysseus (self-hosted AI workspace) and Mousiki (TUI music player).</p><p>When I'm not coding, I'm exploring AI/LLM applications.</p><ul><li>44+ repos</li><li>5+ languages: Python, C++, C#, HTML5, CSS3</li><li>Silver Cod&eacute;dex rank</li><li>2+ open-source contributions</li></ul>`,
-projects:`<h2>Projects &amp; Contributions</h2><div class="links">${link('https://agrisense-app-ruby.vercel.app','Agrisense App','live')}${link('https://github.com/Basheer-io/Agrisense-app','Agrisense code','github')}${link('https://github.com/odysseus-dev/odysseus','Odysseus (contrib)','AI workspace')}${link('https://github.com/itzender5820/mousiki','Mousiki (contrib)','C++ TUI player')}</div>`,
-platforms:`<h2>Coding Platforms</h2><div class="links">${link('https://leetcode.com/salmanbasheer-21/','LeetCode')}${link('https://www.hackerrank.com/profile/25ec189','HackerRank')}${link('https://www.codechef.com/users/basheer_21','CodeChef')}${link('https://www.codedex.io/@Basheer-21','Cod&eacute;dex')}</div>`,
-social:`<h2>Social Media</h2><div class="links">${link('mailto:salmanbasheer1921@gmail.com','Email','say hi')}${link('https://github.com/Basheer-io','GitHub')}${link('https://www.linkedin.com/in/salman-basheer-36a24b423/','LinkedIn')}${link('https://discord.com/users/771093152890748968','Discord')}</div>`
+about:`<h2>About Me</h2><p><b>Salman Basheer</b> &middot; Electronics Student &middot; Open-Source Contributor &middot; Competitive Programmer</p><p>Hi! I'm an electronics &amp; communication engineering student at <b>RMK Engineering College</b>, Chennai.</p><p>I love building things &mdash; from low-level C++ programs to full-stack web apps. I contribute to open-source projects like <b>Odysseus</b> (self-hosted AI workspace) and <b>Mousiki</b> (TUI music player).</p><p>When I'm not coding, I'm exploring AI/LLM applications.</p><div class="stats"><div><b>44+</b>Repos</div><div><b>5+</b>Languages</div><div><b>Silver</b>Cod&eacute;dex rank</div><div><b>2+</b>OSS contributions</div></div><h3>Languages</h3>${T('Python','C++','C#','HTML5','CSS3')}<h3>Tools &amp; Platforms</h3>${T('Git &amp; GitHub','Linux','Vercel','VS Code','Caddy')}<h3>Interests</h3>${T('AI / LLM Apps','Open Source','Competitive Programming','Privacy &amp; Security','Electronics')}<p class="quote">&ldquo;In the pursuit of greatness&rdquo;</p>`,
+projects:`<h2>Projects &amp; Contributions</h2>${proj('&#127806;','Agrisense App','A web application for agricultural sensing and monitoring, deployed on Vercel.',['HTML','Web'],link('https://agrisense-app-ruby.vercel.app','Live','open')+link('https://github.com/Basheer-io/Agrisense-app','Code','github'))}${proj('&#129504;','Odysseus (Contrib)','Self-hosted AI workspace. Contributed upstream pull requests and bug fixes.',['Python','AI'],link('https://github.com/odysseus-dev/odysseus','View repo','github'))}${proj('&#127925;','Mousiki (Contrib)','Highly customizable TUI music player written in C++. Contributed PRs and handled upstream merges.',['C++','TUI'],link('https://github.com/itzender5820/mousiki','View repo','github'))}`,
+platforms:`<h2>Coding Platforms</h2><p>Where I practice and compete.</p><div class="links">${link('https://leetcode.com/salmanbasheer-21/','LeetCode')}${link('https://www.hackerrank.com/profile/25ec189','HackerRank')}${link('https://www.codechef.com/users/basheer_21','CodeChef')}${link('https://www.codedex.io/@Basheer-21','Cod&eacute;dex')}</div>`,
+social:`<h2>Social Media</h2><p>Technology is my favorite rabbit hole, and I'm always up for swapping ideas, learning something new, or digging into how things work. Say hi anytime.</p><div class="links">${link('mailto:salmanbasheer1921@gmail.com','Email','say hi')}${link('https://github.com/Basheer-io','GitHub')}${link('https://www.linkedin.com/in/salman-basheer-36a24b423/','LinkedIn')}${link('https://discord.com/users/771093152890748968','Discord')}</div>`
 };
 
 let near=null,isOpen=false;const pad={};
@@ -80,107 +87,481 @@ class World extends Phaser.Scene{
   create(){
     const g=this.make.graphics({add:false});
     let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-    // ground + path tiles
-    g.fillStyle(C.ch2).fillRect(0,0,32,32);
-    for(let i=0;i<7;i++){g.fillStyle(i%2?0x3a3631:0x403b35).fillRect(Math.floor(rnd()*30),Math.floor(rnd()*30),2,2)}
-    g.generateTexture('ground',32,32);g.clear();
-    g.fillStyle(0x5a554c).fillRect(0,0,32,32);
-    for(let i=0;i<6;i++){g.fillStyle(0x6b655a).fillRect(Math.floor(rnd()*28),Math.floor(rnd()*28),4,2)}
-    g.generateTexture('path',32,32);g.clear();
-    // buildings
+    const R=(x,y,w,h,c)=>g.fillStyle(c).fillRect(x,y,w,h);
+    const D=(cx,cy,r,c)=>{g.fillStyle(c);for(let y=-r;y<=r;y++){const w=Math.floor(Math.sqrt(r*r-y*y+.5));g.fillRect(cx-w,cy+y,w*2,1)}};
+    const tex=(k,w,h)=>{g.generateTexture(k,w,h);g.clear()};
+    const tile=(k,base,cols,n,w,h)=>{R(0,0,32,32,base);for(let i=0;i<n;i++)R(Math.floor(rnd()*28),Math.floor(rnd()*30),w,h,cols[i%cols.length]);tex(k,32,32)};
+    tile('grass',0xc3dc8f,[0xb4cf7e,0xd2e8a2,0xaac574],16,3,2);
+    tile('dirt',0xddc488,[0xcdb274,0xe9d49e],12,3,2);
+    tile('sand',0xeedfaa,[0xe0cf94,0xf6ebc4],8,2,2);
+    R(0,0,32,32,0x6fb7d9);R(4,8,10,2,0x8ccbe8);R(20,22,8,2,0x8ccbe8);tex('water',32,32);
+    [0xffffff,0x8fb4ff,0xffd84d,0xff9a5a].forEach((c,i)=>{R(3,1,2,2,c);R(1,3,2,2,c);R(5,3,2,2,c);R(3,5,2,2,c);R(3,3,2,2,0xffe066);tex('fl'+i,8,8)});
+    D(20,26,14,0x3a7a48);D(20,22,14,0x4f9a55);D(15,17,6,0x6fba6a);D(27,20,4,0x6fba6a);tex('bush',40,34);
+    R(28,50,8,26,0x7a5a3a);R(28,50,3,26,0x5e4228);D(32,36,22,0x3c7f48);D(20,30,13,0x3c7f48);D(44,30,13,0x3c7f48);D(32,32,19,0x4f9a55);D(26,24,8,0x6fba6a);D(42,28,5,0x6fba6a);tex('tree',64,80);
+    R(7,14,3,46,0x2b2b33);R(4,56,9,6,0x2b2b33);R(3,4,11,12,0x2b2b33);R(5,6,7,8,0xffe9a0);tex('lamp',16,64);
+    for(let i=0;i<2;i++){R(i*16+2,0,12,26,0xdba761);R(i*16+2,0,3,26,0xefc27f);R(i*16+11,0,3,26,0xb27b3c)}tex('fence',32,28);
+    for(let v=0;v<3;v++){
+      R(0,0,80,72,0xe3c58a);R(4,4,72,64,0x7a5638);
+      for(let a=0;a<3;a++)for(let b=0;b<2;b++){const cx=16+a*24,cy=20+b*32;
+        if(v===0){D(cx,cy,9,0x5ea84f);D(cx-2,cy-2,5,0x86cf6a)}
+        if(v===1){D(cx,cy+2,7,0x3f8a3f);D(cx-3,cy-1,3,0xe0453a);D(cx+3,cy+3,3,0xe0453a)}
+        if(v===2){R(cx-5,cy-8,10,18,0x5ea84f);R(cx-1,cy-12,3,22,0x4a8f3f);R(cx-1,cy-6,3,6,0xf3c93b)}}
+      tex('plot'+v,80,72);
+    }
+    for(let i=0;i<10;i++)R(i*4,0,4,60,i%2?0xffffff:0x5b9bd5);R(0,0,40,2,0x3d78b8);tex('mat',40,60);
+    R(0,6,80,10,0xd9a45c);R(0,8,80,3,0xefc27f);R(6,16,6,12,0xb27b3c);R(68,16,6,12,0xb27b3c);tex('bench',80,30);
+    R(0,2,56,20,0x8a5a3a);R(0,2,56,5,0xa8703f);D(52,12,9,0xd9b27a);D(52,12,5,0xb48a55);tex('log',64,24);
+    R(2,36,6,18,0x7a5a3a);R(46,36,6,18,0x7a5a3a);R(0,0,54,40,0x4a4a52);R(3,3,48,34,0xe9edf0);R(7,8,18,4,0xe08a3a);R(7,16,18,12,0xc9d3dc);R(29,8,18,6,0x6aa0d6);R(29,18,18,10,0xc9d3dc);tex('board',54,56);
+    for(let i=0;i<=44;i++){const t=i/44,x=Math.round(4+t*292),y=Math.round(6+Math.sin(t*Math.PI)*46);R(x,y,3,2,0x7a6a55);
+      if(i%3===1){const col=[0xe86a5b,0xf2c14e,0x6fbf73,0x5aa3d6,0xb48ad9][(i/3|0)%5];for(let k=0;k<9;k++){const w=9-k;R(x+1-((w-1)>>1),y+2+k,w,1,col)}}}
+    tex('bunt',300,70);
+    // cottages
     B.forEach(b=>{
-      for(let r=0;r<6;r++)g.fillStyle(b.roof).fillRect(48-r*8,r*8,96+r*16,8);
-      g.fillStyle(C.ch).fillRect(8,48,176,6);
-      g.fillStyle(b.wall).fillRect(16,54,160,106);
-      g.fillStyle(C.ch).fillRect(16,54,4,106).fillRect(172,54,4,106);
-      [[34,68],[130,68]].forEach(([x,y])=>{g.fillStyle(C.ch).fillRect(x,y,28,26);g.fillStyle(C.cr2).fillRect(x+3,y+3,10,8)});
-      g.fillStyle(C.ch).fillRect(78,112,36,48);g.fillStyle(C.cr).fillRect(106,136,4,4);
-      g.generateTexture('bld_'+b.k,192,160);g.clear();
+      const OL=0x2a1d17,dk=Phaser.Display.Color.IntegerToColor(b.roof).darken(25).color,lt=Phaser.Display.Color.IntegerToColor(b.roof).lighten(12).color;
+      R(124,4,18,34,OL);R(126,6,14,30,0x9c6a4e);
+      for(let r=0;r<7;r++){R(44-r*7-1,r*9-1,104+r*14+2,11,OL)}
+      for(let r=0;r<7;r++){R(44-r*7,r*9,104+r*14,9,r%2?dk:b.roof);R(44-r*7,r*9,104+r*14,2,lt)}
+      R(13,62,166,114,OL);R(15,64,162,112,b.wall);
+      for(let y=70;y<176;y+=8)R(15,y,162,1,0xd3d8dc);
+      R(15,64,162,5,0xc4c9ce);
+      [[30,80],[132,80]].forEach(([x,y])=>{R(x-3,y-3,36,38,OL);R(x-2,y-2,34,36,0xffffff);R(x+1,y+1,28,30,0x8fb8d8);R(x+1,y+1,28,5,0xb7d6ee);R(x+13,y+1,2,30,0xffffff);R(x+1,y+14,28,2,0xffffff);R(x-4,y+34,38,6,0x9c6a4e);for(let i=0;i<5;i++)D(x+i*7,y+33,2,[0xff7aa8,0xffd84d,0xffffff,0x8fb4ff,0xff9a5a][i])});
+      R(75,108,44,68,OL);R(77,110,40,66,0xffffff);R(80,114,34,62,0x6fa0d0);R(80,114,34,6,0x8fbce4);R(96,114,2,62,0x4f80b0);R(106,144,4,4,0xffd84d);R(68,172,60,6,0xb9bec3);
+      tex('bld_'+b.k,192,180);
     });
-    // tree
-    g.fillStyle(C.ch3).fillRect(20,44,8,20);
-    g.fillStyle(C.mu).fillRect(8,12,32,32).fillRect(14,4,20,8);
-    g.fillStyle(C.cr2).fillRect(14,10,8,8).fillRect(28,22,6,6);
-    g.generateTexture('tree',48,64);g.clear();
-    // player frames
-    const me=s=>{
-      g.fillStyle(0x15130f).fillRect(6,2,12,6).fillRect(5,5,3,4);
-      g.fillStyle(0xb9825a).fillRect(7,8,10,8);
-      g.fillStyle(0x15130f).fillRect(9,11,2,2).fillRect(14,11,2,2);
-      g.fillStyle(C.cr).fillRect(5,16,14,9);g.fillStyle(C.ch3).fillRect(5,20,14,2);
-      g.fillStyle(0xb9825a).fillRect(3,16,2,8).fillRect(19,16,2,8);
-      g.fillStyle(C.ch3).fillRect(6,25,12,4);
-      g.fillStyle(C.ch).fillRect(s?7:6,29,5,s?2:3).fillRect(s?13:14,29,5,s?3:2);
-      g.generateTexture('me'+s,24,32);g.clear();
+
+    // Codédex Worlds style chibi avatar matching Salman's portrait (32x44)
+    const PAL={
+      H:0x121217, // curly black hair
+      C:0x2a2a36, // curl highlight
+      S:0xd5946b, // warm medium-tan skin
+      D:0xb6754e, // skin & ear shadow
+      E:0x121217, // thick brows, eyes & mouth
+      W:0xffffff, // eye sclera
+      M:0x5c3b2b, // trimmed moustache & goatee
+      T:0xf2efe4, // cream band-collar shirt
+      U:0xd8d1be, // shirt shade
+      G:0x9c9586, // shirt speckles & collar trim
+      P:0x252732, // dark trousers
+      Q:0x171820, // trousers inner shade
+      K:0x2e3140, // sneaker upper
+      L:0xf2efe4  // sneaker white sole
     };
-    me(0);me(1);
-    this.anims.create({key:'walk',frames:[{key:'me0'},{key:'me1'}],frameRate:7,repeat:-1});
+
+    const HEAD_DOWN=[
+      '...........HHHHHHHHHH...........',
+      '.........HCHHHHHHHHHHCH.........',
+      '........HHHHCHHHHHHHHCHH........',
+      '.......HHHCHHHHHCHHHHHCHH.......',
+      '.......HHHHHHCHHHHHHCHHHH.......',
+      '......HHCHHHHHHCHHHHHHCHHH......',
+      '......HHHHHHHHHHHHHHHHHHHH......',
+      '......HHCHHHSSSSSSSSSSCHHH......',
+      '......HHHHSSSSSSSSSSSSSHHH......',
+      '......HHHSSSSSSSSSSSSSSHHH......',
+      '......HHHSSSEEEESSEEEESSHH......',
+      '......HHSSSSSSSSSSSSSSSSHH......',
+      '......HHDSSSWEEESSEEWSSSDH......',
+      '......HHDSSSWEEESSEEWSSSDH......',
+      '.......HDSSSSSSSDDSSSSSSDH......',
+      '.......HDSSSSSMMMMMMSSSSDH......',
+      '........DSSSSSSEEEESSSSD........',
+      '.........DSSSSSSMMSSSSD.........',
+      '..........DDSSSMMMMSSDD.........',
+      '............DDDSSSSDDD..........'
+    ];
+
+    const HEAD_UP=[
+      '...........HHHHHHHHHH...........',
+      '.........HCHHHHHHHHHHCH.........',
+      '........HHHHCHHHHHHHHCHH........',
+      '.......HHHCHHHHHCHHHHHCHH.......',
+      '.......HHHHHHCHHHHHHCHHHH.......',
+      '......HHCHHHHHHCHHHHHHCHHH......',
+      '......HHHHHHHHHHHHHHHHHHHH......',
+      '......HHCHHHHHHCHHHHHHCHHH......',
+      '......HHHHHHHHHHHHHHHHHHHH......',
+      '......HHHCHHHHHHCHHHHHCHHH......',
+      '......HHHHHHHHHHHHHHHHHHHH......',
+      '......HHCHHHHHHCHHHHHHCHHH......',
+      '......DHHHHHHHHHHHHHHHHHHD......',
+      '......DHHHHHHHHHHHHHHHHHHD......',
+      '.......DHHHHHHHHHHHHHHHHD.......',
+      '.......DHHHHHHHHHHHHHHHHD.......',
+      '........HHHHHHHHHHHHHHHH........',
+      '.........HHHHHHHHHHHHHH.........',
+      '..........HHHHHHHHHHHH..........',
+      '............DDDDDDDD............'
+    ];
+
+    const HEAD_RIGHT=[
+      '..........HHHHHHHHHH............',
+      '........HCHHHHHHHHHHCH..........',
+      '.......HHHHCHHHHHHHHCHH.........',
+      '......HHHCHHHHHCHHHHHCHH........',
+      '......HHHHHHCHHHHHHCHHHH........',
+      '.....HHCHHHHHHCHHHHHHCHHH.......',
+      '.....HHHHHHHHHHHHHHHHHHHH.......',
+      '.....HHCHHHHHHSSSSSSSSSHH.......',
+      '.....HHHHHHHHSSSSSSSSSSSH.......',
+      '.....HHHCHHHHSSSSSSSSSSSH.......',
+      '.....HHHHHHHHSSSEEEESSSSH.......',
+      '.....HHCHHHHSSSSSSSSSSSS........',
+      '.....HHHHDDSSSSSSSWEEESS........',
+      '.....HHHHDDSSSSSSSWEEESS........',
+      '......HHHHDSSSSSSSSSSSSSD.......',
+      '......HHHHSSSSSSSSMMMMMM........',
+      '.......HHHSSSSSSSSSEEEE.........',
+      '........HHSSSSSSSSSSMM..........',
+      '.........HDDDDSSSSMMM...........',
+      '...........DDDDDDDDD............'
+    ];
+
+    const BODY_DOWN=[
+      [
+        '..........TTTGGDDDDGGTTT........',
+        '.........TTTTTGGDDGGTTTTT.......',
+        '........UTTTTTTTGGTTTTTTTU......',
+        '.......UUTTTGTTTTTTTTGTTTUU.....',
+        '.......UUTTTTTTTGGTTTTTTTUU.....',
+        '.......UUTGTTTTTTTTTTTTGTUU.....',
+        '.......UUTTTTTTTGGTTTTTTTUU.....',
+        '.......UUTTTTGTTTTTTGTTTTUU.....',
+        '.......SSTTTTTTTTTTTTTTTTSS.....',
+        '.......SSTTUUUUUUUUUUUUTTSS.....',
+        '........DD.PPPPPPPPPPPP.DD......',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........KKKKK..KKKKK.........',
+        '...........LLLLL..LLLLL.........',
+        '................................'
+      ],
+      [
+        '..........TTTGGDDDDGGTTT........',
+        '.........TTTTTGGDDGGTTTTT.......',
+        '........UTTTTTTTGGTTTTTTTU......',
+        '.......SSTTTGTTTTTTTTGTTTUU.....',
+        '.......SSTTTTTTTGGTTTTTTTUU.....',
+        '.......DDTGTTTTTTTTTTTTGTUU.....',
+        '........UUTTTTTTGGTTTTTTTUU.....',
+        '........UUTTTGTTTTTTGTTTTUU.....',
+        '........UTTTTTTTTTTTTTTTTSS.....',
+        '........UTTUUUUUUUUUUUUTTSS.....',
+        '...........PPPPPPPPPPPP.DD......',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........KKKKK..PPPPP.........',
+        '...........LLLLL..PPPPP.........',
+        '..................KKKKK.........',
+        '..................LLLLL.........',
+        '................................'
+      ],
+      [
+        '..........TTTGGDDDDGGTTT........',
+        '.........TTTTTGGDDGGTTTTT.......',
+        '........UTTTTTTTGGTTTTTTTU......',
+        '.......UUTTTGTTTTTTTTGTTTSS.....',
+        '.......UUTTTTTTTGGTTTTTTTSS.....',
+        '.......UUTGTTTTTTTTTTTTGTDD.....',
+        '.......UUTTTTTTTGGTTTTTTUU......',
+        '.......UUTTTTGTTTTTTGTTTUU......',
+        '.......SSTTTTTTTTTTTTTTTTU......',
+        '.......SSTTUUUUUUUUUUUUTTU......',
+        '........DD.PPPPPPPPPPPP.........',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..KKKKK.........',
+        '...........PPPPP..LLLLL.........',
+        '...........KKKKK................',
+        '...........LLLLL................',
+        '................................'
+      ]
+    ];
+
+    const BODY_UP=[
+      [
+        '..........TTTTTTTTTTTTTT........',
+        '.........TTTTTTTTTTTTTTTT.......',
+        '........UTTTTTGTTTTTTGTTTU......',
+        '.......UUTTTTTTTTTTTTTTTTUU.....',
+        '.......UUTTTGTTTTTTTTGTTTUU.....',
+        '.......UUTTTTTTTTTTTTTTTTUU.....',
+        '.......UUTTTTTTGTTTGTTTTTUU.....',
+        '.......UUTTTTTTTTTTTTTTTTUU.....',
+        '.......SSTTTTTTTTTTTTTTTTSS.....',
+        '.......SSTTUUUUUUUUUUUUTTSS.....',
+        '........DD.PPPPPPPPPPPP.DD......',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........KKKKK..KKKKK.........',
+        '...........LLLLL..LLLLL.........',
+        '................................'
+      ],
+      [
+        '..........TTTTTTTTTTTTTT........',
+        '.........TTTTTTTTTTTTTTTT.......',
+        '........UTTTTTGTTTTTTGTTTU......',
+        '.......SSTTTTTTTTTTTTTTTTUU.....',
+        '.......SSTTTGTTTTTTTTGTTTUU.....',
+        '.......DDTTTTTTTTTTTTTTTTUU.....',
+        '........UUTTTTTGTTTGTTTTTUU.....',
+        '........UUTTTTTTTTTTTTTTTUU.....',
+        '........UTTTTTTTTTTTTTTTTSS.....',
+        '........UTTUUUUUUUUUUUUTTSS.....',
+        '...........PPPPPPPPPPPP.DD......',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........KKKKK..PPPPP.........',
+        '...........LLLLL..PPPPP.........',
+        '..................KKKKK.........',
+        '..................LLLLL.........',
+        '................................'
+      ],
+      [
+        '..........TTTTTTTTTTTTTT........',
+        '.........TTTTTTTTTTTTTTTT.......',
+        '........UTTTTTGTTTTTTGTTTU......',
+        '.......UUTTTTTTTTTTTTTTTTSS.....',
+        '.......UUTTTGTTTTTTTTGTTTSS.....',
+        '.......UUTTTTTTTTTTTTTTTTDD.....',
+        '.......UUTTTTTTGTTTGTTTTUU......',
+        '.......UUTTTTTTTTTTTTTTTUU......',
+        '.......SSTTTTTTTTTTTTTTTTU......',
+        '.......SSTTUUUUUUUUUUUUTTU......',
+        '........DD.PPPPPPPPPPPP.........',
+        '...........PPPPQQQQPPPP.........',
+        '...........PPPPPPPPPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..PPPPP.........',
+        '...........PPPPP..KKKKK.........',
+        '...........PPPPP..LLLLL.........',
+        '...........KKKKK................',
+        '...........LLLLL................',
+        '................................'
+      ]
+    ];
+
+    const BODY_RIGHT=[
+      [
+        '..........TTTTTTGGTTT...........',
+        '.........TTTTTTTTGGTTT..........',
+        '........UTTTTTGTTTTGTTT.........',
+        '........UTTTUUUUUUTTTTT.........',
+        '........UTTTUUTTTUTTTTT.........',
+        '........UTTTUUTTTUTTTTT.........',
+        '........UTTTUUGTTUTTTTT.........',
+        '........UTTTUUTTTUTTTTT.........',
+        '........UTTTSSUUUTTTTTT.........',
+        '.........UUUSSUUUUUUUU..........',
+        '..........DDPPPPPPPPPP..........',
+        '............PPPPQQPPPP..........',
+        '............PPPPPPPPPP..........',
+        '............PPPPPPPPPP..........',
+        '............PPPPPPPPPP..........',
+        '............PPPPPPPPPP..........',
+        '............PPPPPPPPPP..........',
+        '............KKKKKKK.............',
+        '............LLLLLLL.............',
+        '................................'
+      ],
+      [
+        '..........TTTTTTGGTTT...........',
+        '.........TTTTTTTTGGTTT..........',
+        '........UTTTTTGTTTTGTTT.........',
+        '........UTTTTTUUUUUUTTT.........',
+        '........UTTTTTUUTTTUTTT.........',
+        '........UTTTTTUUTTTUTTT.........',
+        '........UTTTTTUUGTTUTTT.........',
+        '........UTTTTTUUTTTUTTT.........',
+        '........UTTTTTSSUUUTTTT.........',
+        '.........UUUUUSSUUUUUU..........',
+        '..........PPPPPPPPPPDD..........',
+        '...........PPPPPPQQPPP..........',
+        '..........PPPPPP..PPPPP.........',
+        '.........PPPPP.....PPPPP........',
+        '........PPPPP.......PPPPP.......',
+        '.......KKKKK.........KKKKK......',
+        '.......LLLLL.........LLLLL......',
+        '................................',
+        '................................',
+        '................................'
+      ],
+      [
+        '..........TTTTTTGGTTT...........',
+        '.........TTTTTTTTGGTTT..........',
+        '........UTTTTTGTTTTGTTT.........',
+        '........UTUUUUUUTTTTTTT.........',
+        '........UTUUTTTUTTTTTTT.........',
+        '........UTUUTTTUTTTTTTT.........',
+        '........UTUUGTTUTTTTTTT.........',
+        '........UTUUTTTUTTTTTTT.........',
+        '........UTSSUUUTTTTTTTT.........',
+        '........DDSSUUUUUUUUUU..........',
+        '..........PPPPPPPPPPPP..........',
+        '...........PPPPQQPPPPP..........',
+        '..........PPPPP..PPPPPP.........',
+        '.........PPPPP....PPPPPP........',
+        '........PPPPP......PPPPPP.......',
+        '.......KKKKK........KKKKK.......',
+        '.......LLLLL........LLLLL.......',
+        '................................',
+        '................................',
+        '................................'
+      ]
+    ];
+
+    const renderAvatar=(key,rows)=>{
+      const h=rows.length,w=32,OL=0x1b1619;
+      const grid=rows.map(r=>r.padEnd(w,'.'));
+      g.fillStyle(OL);
+      for(let y=0;y<h;y++){
+        for(let x=0;x<w;x++){
+          if(grid[y][x]==='.')continue;
+          if(y>0&&grid[y-1][x]==='.')g.fillRect(x,y-1,1,1);
+          if(y<h-1&&grid[y+1][x]==='.')g.fillRect(x,y+1,1,1);
+          if(x>0&&grid[y][x-1]==='.')g.fillRect(x-1,y,1,1);
+          if(x<w-1&&grid[y][x+1]==='.')g.fillRect(x+1,y,1,1);
+        }
+      }
+      for(let y=0;y<h;y++){
+        for(let x=0;x<w;x++){
+          const ch=grid[y][x];
+          if(ch!=='.'&&PAL[ch])R(x,y,1,1,PAL[ch]);
+        }
+      }
+      tex(key,w,h);
+    };
+
+    ['down','up','right','left'].forEach(d=>{
+      const baseDir=d==='left'?'right':d;
+      const head=baseDir==='down'?HEAD_DOWN:baseDir==='up'?HEAD_UP:HEAD_RIGHT;
+      const bodies=baseDir==='down'?BODY_DOWN:baseDir==='up'?BODY_UP:BODY_RIGHT;
+      [0,1,2].forEach(f=>{
+        const bob=f>0?['................................']:[];
+        const topPad=f>0?['................................']:['................................','................................'];
+        const botPad=f>0?['................................','................................']:['................................'];
+        let rows=[...topPad,...bob,...head,...bodies[f],...botPad];
+        if(d==='left')rows=rows.map(r=>r.split('').reverse().join(''));
+        renderAvatar('p_'+d+f,rows);
+      });
+      // Subtle 1px idle breathing frame
+      const idleHead=head.map((r,i)=>i===0?'................................':head[i-1]);
+      let idleRows=['................................','................................',...idleHead,...bodies[0],'................................'];
+      if(d==='left')idleRows=idleRows.map(r=>r.split('').reverse().join(''));
+      renderAvatar('p_'+d+'_idle',idleRows);
+
+      this.anims.create({key:'walk_'+d,frames:[1,0,2,0].map(i=>({key:'p_'+d+i})),frameRate:8,repeat:-1});
+      this.anims.create({key:'idle_'+d,frames:[{key:'p_'+d+'0'},{key:'p_'+d+'_idle'}],frameRate:2.2,repeat:-1});
+    });
 
     // world
-    this.physics.world.setBounds(0,0,W,H);
-    this.add.tileSprite(0,0,W,H,'ground').setOrigin(0);
-    const road=(x,y,w,h)=>this.add.tileSprite(x,y,w,h,'path').setOrigin(.5).setDepth(1);
+    this.physics.world.setBounds(200,200,W-400,H-400);
+    this.water=this.add.tileSprite(0,0,W,H,'water').setOrigin(0);
+    this.add.tileSprite(W/2,H/2,W-280,H-280,'sand');
+    this.add.tileSprite(W/2,H/2,W-340,H-340,'grass');
+    const road=(x,y,w,h)=>{this.add.tileSprite(x,y,w+10,h+10,'dirt').setTint(0xb89a5e).setDepth(1);this.add.tileSprite(x,y,w,h,'dirt').setDepth(1)};
     road(W/2,900,1800,64);road(W/2,H/2,64,1300);
     B.forEach(b=>road(b.x,(b.y+900)/2,64,Math.abs(b.y-900)));
-    road(W/2,900,200,200);
+    this.add.ellipse(W/2,900,520,400,0xc4a56a).setDepth(1);
+    this.add.ellipse(W/2,900,500,380,0xddc488).setDepth(1.1);
     this.solid=this.physics.add.staticGroup();
-    const font={fontFamily:'"Press Start 2P"',fontSize:'8px',color:'#f2eada',backgroundColor:'#24221f',padding:{x:6,y:5}};
+    const deco=(k,x,y,bw,bh)=>{
+      const im=this.add.image(x,y,k).setDepth(y+im_h(k));
+      if(bw){this.physics.add.existing(im,true);im.body.setSize(bw,bh).setOffset((im.width-bw)/2,im.height-bh);this.solid.add(im)}
+      return im;
+    };
+    const im_h=k=>this.textures.get(k).getSourceImage().height/2;
+    // sign helper (white panel with blue border)
+    const sign=(x,y,txt,dep)=>{
+      const t=this.add.text(x,y,txt,{fontFamily:'"Pixelify Sans"',fontStyle:'bold',fontSize:'15px',color:'#26334d'}).setOrigin(.5).setDepth(dep+1);
+      this.add.rectangle(x,y,t.width+22,t.height+12,0xdfe6ee).setStrokeStyle(3,0x4b6fb0).setDepth(dep);
+    };
     B.forEach(b=>{
-      const s=this.solid.create(b.x,b.y-80,'bld_'+b.k).setDepth(b.y);
-      this.add.text(b.x,b.y-166,b.n,font).setOrigin(.5,1).setDepth(b.y+1);
-      this.add.text(b.x,b.y+34,'ENTER',{...font,fontSize:'7px',color:'#24221f',backgroundColor:'#f2eada'}).setOrigin(.5).setDepth(2).setAlpha(.9);
+      const im=this.add.image(b.x,b.y-90,'bld_'+b.k).setDepth(b.y);
+      this.physics.add.existing(im,true);this.solid.add(im);
+      sign(b.x,b.y-196,b.n,b.y+1);
+      this.add.text(b.x,b.y+36,'ENTER',{fontFamily:'"Press Start 2P"',fontSize:'7px',color:'#2a1d17',backgroundColor:'#ffd84d',padding:{x:6,y:5}}).setOrigin(.5).setDepth(2);
+      deco('lamp',b.x-86,b.y-4,8,8);deco('lamp',b.x+86,b.y-4,8,8);
     });
-    this.add.text(W/2,900,"SAL'S WORLD",{...font,fontSize:'12px'}).setOrigin(.5).setDepth(2);
-    // trees
+    sign(W/2,760,"SAL'S WORLD",5);
+    deco('board',W/2,830,40,12);
+    deco('lamp',950,900,8,8);deco('lamp',1450,900,8,8);
+    this.add.image(W/2,880,'bunt').setDisplaySize(500,86).setDepth(2000);
+    this.add.image(1050,1010,'mat').setDepth(3);
+    deco('bench',1470,1010,70,12);deco('log',1360,1020,50,12);
+    [[930,1200,0],[1030,1200,1],[1370,1200,2],[1470,1200,0]].forEach(([x,y,v])=>deco('plot'+v,x,y,76,60));
+    [[980,1090],[1420,1090]].forEach(([x,y])=>{const f=this.add.tileSprite(x,y,260,28,'fence').setDepth(y+14);this.physics.add.existing(f,true);f.body.setSize(260,14).setOffset(0,14);this.solid.add(f)});
+    // shrub border along the island edge
+    for(let x=230;x<W-200;x+=46){deco('bush',x,214);deco('bush',x,H-214)}
+    for(let y=260;y<H-230;y+=46){deco('bush',214,y);deco('bush',W-214,y)}
+    // trees + scatter
+    const keep=(x,y)=>Math.abs(y-900)<110||Math.abs(x-W/2)<110||(((x-W/2)/320)**2+((y-900)/270)**2)<1||B.some(b=>(Math.abs(x-b.x)<130&&y>Math.min(b.y-230,900)&&y<Math.max(b.y+60,900))||Phaser.Math.Distance.Between(x,y,b.x,b.y-80)<260)||(x>860&&x<1560&&y>1060&&y<1300);
     let placed=0,tries=0;
-    while(placed<70&&tries<2000){
-      tries++;
-      const x=80+rnd()*(W-160),y=100+rnd()*(H-160);
-      if(Math.abs(y-900)<110||Math.abs(x-W/2)<110)continue;
-      if(B.some(b=>Math.abs(x-b.x)<130&&y>Math.min(b.y-220,900)&&y<Math.max(b.y+60,900)))continue;
-      if(B.some(b=>Phaser.Math.Distance.Between(x,y,b.x,b.y-80)<240))continue;
-      const t=this.add.image(x,y,'tree').setDepth(y);
-      this.physics.add.existing(t,true);t.body.setSize(14,12).setOffset(17,50);
-      this.solid.add(t);placed++;
-    }
+    while(placed<60&&tries<3000){tries++;const x=260+rnd()*(W-520),y=260+rnd()*(H-520);if(keep(x,y))continue;deco('tree',x,y,18,12);placed++}
+    for(let i=0;i<220;i++){const x=230+rnd()*(W-460),y=230+rnd()*(H-460);if(Math.abs(y-900)<50||Math.abs(x-W/2)<50||keep(x,y)&&rnd()<.7)continue;this.add.image(x,y,'fl'+Math.floor(rnd()*4)).setDepth(2)}
+    for(let i=0;i<45;i++){const x=240+rnd()*(W-480),y=240+rnd()*(H-480);if(keep(x,y))continue;deco('bush',x,y)}
     // player
-    this.p=this.physics.add.sprite(W/2,990,'me0').setDepth(990);
-    this.p.body.setSize(14,10).setOffset(5,22);
+    this.dir='down';this.axis='y';
+    this.sh=this.add.ellipse(W/2,1010,20,8,0x000000,.24);
+    this.p=this.physics.add.sprite(W/2,990,'p_down0');
+    this.p.body.setSize(14,10).setOffset(9,32);
     this.p.setCollideWorldBounds(true);
     this.physics.add.collider(this.p,this.solid);
-    this.tag=this.add.text(0,0,'@Basheer',{...font,fontSize:'7px'}).setOrigin(.5,1).setDepth(99999);
-    // camera + minimap
+    // Codédex Worlds style floating player badge
+    const tagTxt=this.add.text(3,0,'Salman',{fontFamily:'"Pixelify Sans"',fontStyle:'bold',fontSize:'9px',color:'#f2eada'}).setOrigin(.5);
+    const tagBg=this.add.rectangle(0,0,tagTxt.width+14,14,0x24221f,.88).setStrokeStyle(1,0xf2eada,.9);
+    const tagDot=this.add.rectangle(-tagTxt.width/2-2,0,3,3,0x4ade80);
+    this.tag=this.add.container(W/2,960,[tagBg,tagDot,tagTxt]);
     const cam=this.cameras.main;cam.setBounds(0,0,W,H).startFollow(this.p,true,.12,.12);
-    this.mm=this.cameras.add(0,0,160,120).setZoom(160/W).setBackgroundColor(0x24221f);
+    this.mm=this.cameras.add(0,0,160,120).setZoom(160/W).setBackgroundColor(0x6fb7d9);
     this.mm.centerOn(W/2,H/2);
-    this.dot=this.add.rectangle(0,0,70,70,C.cr).setDepth(99998);
+    this.mm.ignore(this.tag);
+    this.dot=this.add.rectangle(0,0,70,70,0xffd84d).setDepth(99998);
     cam.ignore(this.dot);
     this.fit=()=>{
       const w=this.scale.width,h=this.scale.height,mw=w<560?110:160,mh=w<560?82:120;
-      cam.setZoom(Phaser.Math.Clamp(Math.min(w,h)/360,1.4,2.6));
+      cam.setZoom(Phaser.Math.Clamp(Math.min(w,h)/330,1.6,3));
       this.mm.setSize(mw,mh).setZoom(mw/W).setPosition(w-mw-14,14).centerOn(W/2,H/2);
     };
     this.fit();this.scale.on('resize',this.fit);
     this.keys=this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
   }
   update(){
-    const k=this.keys,p=this.p;
+    const k=this.keys,p=this.p;this.water.tilePositionX+=.25;this.water.tilePositionY+=.1;
     let dx=0,dy=0;
     if(!isOpen){
       dx=(k.RIGHT.isDown||k.D.isDown||pad.r?1:0)-(k.LEFT.isDown||k.A.isDown||pad.l?1:0);
       dy=(k.DOWN.isDown||k.S.isDown||pad.d?1:0)-(k.UP.isDown||k.W.isDown||pad.u?1:0);
     }
-    const v=new Phaser.Math.Vector2(dx,dy).normalize().scale(130);
-    p.setVelocity(v.x,v.y);
-    if(dx||dy){p.anims.play('walk',true);if(dx)p.setFlipX(dx<0)}else{p.anims.stop();p.setTexture('me0')}
-    p.setDepth(p.y);this.tag.setPosition(p.x,p.y-20);this.dot.setPosition(p.x,p.y);
+    if(dx&&dy){if(this.axis==='x')dy=0;else dx=0}else if(dx)this.axis='x';else if(dy)this.axis='y';
+    if(dx)this.dir=dx>0?'right':'left';else if(dy)this.dir=dy>0?'down':'up';
+    p.setVelocity(dx*130,dy*130);
+    if(dx||dy)p.anims.play('walk_'+this.dir,true);else p.anims.play('idle_'+this.dir,true);
+    p.setDepth(p.y+18);this.sh.setPosition(p.x,p.y+19).setDepth(p.y+17);
+    this.tag.setPosition(Math.round(p.x),Math.round(p.y-29)).setDepth(p.y+19);
+    this.dot.setPosition(p.x,p.y);
     near=null;
     for(const b of B){if(Phaser.Math.Distance.Between(p.x,p.y,b.x,b.y+26)<64){near=b;break}}
-    if(near&&!isOpen){hint.style.display='block';hint.textContent=(matchMedia('(hover:none)').matches?'TAP ENTER':'PRESS E')+' · '+near.n}
+    if(this.lock&&(!near||near.k!==this.lock))this.lock=null;
+    if(near&&!isOpen&&!this.lock&&dy<0&&Math.abs(p.x-near.x)<36&&p.y<near.y+26){this.lock=near.k;openP(near.k);return}
+    if(near&&!isOpen){hint.style.display='block';hint.textContent=(matchMedia('(hover:none)').matches?'WALK UP OR TAP ENTER':'WALK UP TO THE DOOR')+' · '+near.n}
     else hint.style.display='none';
   }
 }
-new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#24221f',pixelArt:true,roundPixels:true,
+new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#6fb7d9',pixelArt:true,roundPixels:true,
   scale:{mode:Phaser.Scale.RESIZE,width:window.innerWidth,height:window.innerHeight},
   physics:{default:'arcade',arcade:{debug:false}},scene:World});
 </script>
